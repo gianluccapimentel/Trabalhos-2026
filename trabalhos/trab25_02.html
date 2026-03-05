@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+
+
+<head>
+	<meta charset="UTF-8">
+	<title> Desenho Técnico </title>
+	<style>
+	body {
+	font-family: Arial, Helvetica, sans-serif;
+	line-height: 1.6;
+	margin: 40px;
+	background: #fafafa;
+	color: #333;
+	}
+	h1 {
+	margin-top: 60px;
+	border-bottom: 3px solid #ddd;
+	padding-bottom: 10px;
+	}
+	h2 {
+	margin-top: 40px;
+	color: #1e1e1e;
+	}
+	h3, h4 {
+  	text-indent: 2em;
+	margin-top: 30px;
+	font-weight: 600;
+	}
+	.details {
+	background: #1e1e1e;
+	padding: 10px;
+	border-radius: 8px;
+	margin: 50px 0;
+  	}
+	.indice {
+	background: white;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 20px;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+	}
+	.indice a {
+	text-decoration: none;
+	color: #333;
+	}
+	.indice a:hover {
+	color: #0066cc;
+	}
+	.summary * {
+    margin-left: 2em; 
+	}
+	.quiz {
+	background: #f5f5f5;
+	padding: 20px;
+	border-radius: 8px;
+	width: 400px;
+	cursor: pointer;
+	transition: 0.2s;
+	}
+	.quiz label:hover {
+	background: #f0f4ff;
+	}
+	.feedback {
+	display: none;
+	margin-top: 10px;
+	font-weight: bold;
+	}
+	.correta {
+	color: green;
+	}
+	.errada {
+	color: red;
+	}
+	input[value="c"]:checked ~ .correta {
+	display: block;
+	}
+	input[value="a"]:checked ~ .errada.a,
+	input[value="b"]:checked ~ .errada.b,
+	input[value="d"]:checked ~ .errada.d,
+	input[value="e"]:checked ~ .errada.e {
+	display: block;
+	}
+	</style>
+</head>
+
+<body>
+	<div class="indice">
+	<details>
+	<summary class="indice">
+		<a href="#historia"> História </a><br>
+	</summary>
+		<a href="#primitivo"> Era da Representação Primitiva </a><br>
+		<a href="#moderno"> Era do Desenho Técnico Moderno </a><br>
+		<a href="#digital"> Era Digital (CAD) </a><br>
+	</details>
+	<details>
+	<summary class="indice"> 
+		<a href="#conteudo"> Conteúdo </a><br> 
+	</summary>
+		<a href="#introducao">Introdução</a><br>
+		<a href="#fundamentos"> Fundamentos </a><br>
+		<a href="#normas"> Normas </a><br>
+		<a href="#matinstru"> Materiais e Instrumentos </a><br>
+		<a href="#perspectivas"> Perspectivas </a><br>
+		<a href="#cotagens"> Cotagens </a><br>
+		<a href="#linha"> Tipos de Linha</a><br>
+	</details>
+	<details>
+	<summary class="indice"> 
+		<a href="#exercicios"> Exercícios </a><br>
+	</summary>
+		<a href="#historica"> Histórica </a><br>
+		<a href="#tecnica"> Técnica </a><br>
+	</details>
+	</div>
+	<h1 id="historia"> Histórico do Desenho Técnico: Da Representação Empírica à Modelagem Digital </h1>
+	<h3>O desenho técnico constitui a principal linguagem gráfica da engenharia, da arquitetura e da manufatura. Sua evolução está diretamente ligada ao desenvolvimento tecnológico e às necessidades produtivas de cada período histórico. Pode-se dividir essa trajetória em três grandes eras: a era da representação primitiva, a era do desenho técnico moderno manual e a era digital.</h3>
+
+	<h2 id="primitivo"> Era da Representação Primitiva (Desenho como Registro) </h2>
+	<h4> Antes da formalização científica, o desenho era essencialmente um meio de registro e comunicação construtiva. Civilizações antigas já utilizavam representações gráficas para planejar edificações, sistemas hidráulicos e estruturas monumentais. </h4>
+	<h4> No Antigo Egito, por exemplo, há registros em papiros que indicam plantas arquitetônicas e esquemas construtivos utilizados na execução de templos e pirâmides. Essas representações não seguiam normas padronizadas como as atuais, mas demonstravam organização espacial e noções geométricas aplicadas. </h4>
+	<h4> De forma semelhante, o Império Romano utilizava desenhos para planejar estradas, aquedutos e edificações militares. Embora não existisse um sistema universal de projeções ou convenções gráficas, já se observava preocupação com proporção, escala prática e organização estrutural. </h4>
+	<h4> Nessa fase, o desenho possuía caráter empírico. Ele não era uma linguagem técnica formal, mas sim uma ferramenta auxiliar à construção. A precisão dependia da habilidade individual do desenhista e da experiência acumulada na prática construtiva. </h4>
+	
+	<h2 id="moderno"> Era do Desenho Técnico Moderno Manual (Normatização e Industrialização) </h2>
+	<h4> O salto conceitual ocorre entre o Renascimento e a Revolução Industrial. O desenvolvimento da perspectiva e dos estudos geométricos consolidou o desenho como instrumento científico. Posteriormente, com o avanço da indústria, tornou-se necessária uma linguagem gráfica padronizada que permitisse produção em série. </h4>
+	<h4> Um marco importante foi o desenvolvimento da geometria descritiva por Gaspard Monge no século XVIII. A geometria descritiva sistematizou os métodos de projeção ortogonal, estabelecendo fundamentos matemáticos para representar objetos tridimensionais em planos bidimensionais com rigor técnico. </h4>
+	<h4> Durante a Revolução Industrial, o desenho técnico deixou de ser apenas representativo e passou a ser instrucional. Ele tornou-se o documento que orientava a fabricação de peças intercambiáveis, exigindo precisão dimensional e clareza absoluta. Surgem então: </h4>
+	<ul>
+		<li> Sistemas de projeção (1º e 3º diedro) </li>
+		<li> Regras de Cotagem </li>
+		<li> Tipos padronizados de linha </li>
+		<li> Escalas normalizadas </li>
+	</ul>
+	<h4> No século XX, a consolidação das normas técnicas fortaleceu essa linguagem universal. A fundação da International Organization for Standardization promoveu padronização internacional, enquanto no Brasil a Associação Brasileira de Normas Técnicas passou a regulamentar formatos de folha, tipos de linha, escalas e convenções. </h4>
+	<h4> O desenho técnico manual, executado com régua T, esquadros, compasso e nanquim, tornou-se símbolo da engenharia industrial. A prancheta era o centro do desenvolvimento de projetos mecânicos, estruturais e arquitetônicos. A precisão dependia da habilidade técnica do desenhista, mas já estava baseada em normas consolidadas. </h4>
+	<h4> Essa fase representa o auge do desenho como documento físico normatizado. </h4>
+
+	<h2 id="digital"> Era Digital, CAD e Modelagem Paramétrica </h2>
+	<h4> A partir do final do século XX, ocorre uma transformação estrutural: a migração da prancheta para o ambiente computacional. O surgimento de softwares CAD (Computer-Aided Design) automatizou processos de desenho e ampliou significativamente a precisão geométrica. </h4>
+	<h4> Programas como o AutoCAD popularizaram o desenho 2D digital, permitindo correções rápidas, replicações exatas e armazenamento eletrônico. Posteriormente, softwares paramétricos como o Fusion 360 introduziram modelagem tridimensional baseada em parâmetros editáveis. </h4>
+	<h4> A principal mudança conceitual nessa era é que o desenho deixa de ser apenas representação e passa a ser modelo. No sistema paramétrico: </h4>
+	<ul>
+		<li> Dimensões são variáveis associativas. </li>
+		<li> Alterações atualizam automaticamente vistas e cortes. </li>
+		<li> O modelo integra projeto, simulação e fabricação. </li>
+	</ul>
+	<h4> Além disso, plataformas BIM (Building Information Modeling), como o Revit, ampliaram o conceito para o setor da construção civil, incorporando dados estruturais, materiais e cronogramas ao modelo digital. </h4>
+	<h4> Nessa etapa, o desenho técnico torna-se parte de um ecossistema digital integrado (CAD, CAM e CAE), alinhado aos princípios da Indústria 4.0. A precisão passa a ser matemática e computacional, reduzindo drasticamente erros humanos comuns na execução manual. </h4>
+
+
+	<h1 id="conteudo"> Conteúdo </h1>
+
+	<h2 id="introducao"> Introdução </h2>
+	<h4> O Desenho Técnico é a linguagem gráfica universal utilizada para representar objetos, peças, mecanismos e edificações de forma padronizada e precisa. Diferentemente do desenho artístico, que permite interpretação subjetiva, o desenho técnico tem como princípio fundamental a ausência de ambiguidade. Ele deve transmitir informações geométricas e dimensionais de maneira objetiva, permitindo que qualquer profissional capacitado compreenda e execute o que está representado. </h4>
+	<h4> Na engenharia e na arquitetura, o desenho técnico funciona como documento formal de projeto. Ele especifica dimensões, tolerâncias, materiais, acabamentos e detalhes construtivos. Na indústria, é a base para fabricação e controle de qualidade. Na construção civil, orienta execução estrutural e instalações. </h4>
+	<h4> Com a evolução tecnológica, o desenho técnico passou da execução manual para sistemas computacionais CAD, mantendo, porém, os mesmos fundamentos normativos. Assim, compreender seus princípios é essencial independentemente da ferramenta utilizada. </h4>
+
+	<h2 id="fundamentos"> Fundamentos </h2>
+	<h4> Os fundamentos do desenho técnico estão baseados na geometria descritiva e nos sistemas de projeção. O objetivo central é representar corretamente um objeto tridimensional em superfícies bidimensionais (papel ou tela). </h4>
+	<h4> Entre os principais fundamentos, destacam-se: </h4>
+	<ul>
+		<li> Projeção ortogonal: representação do objeto por meio de vistas (frontal, superior, lateral). </li>
+		<li> Escala: relação proporcional entre o tamanho real do objeto e sua representação gráfica. </li>
+		<li> Proporção e simetria: organização geométrica coerente. </li>
+		<li> Clareza gráfica: organização visual que facilite a leitura. </li>
+		<li> Precisão dimensional: fidelidade às medidas reais. </li>
+	</ul>
+	<h4> A base matemática do desenho técnico garante que medidas, ângulos e relações geométricas possam ser interpretados sem distorção. A aplicação correta desses fundamentos evita erros de fabricação, retrabalho e desperdício de material. </h4>
+
+	<h2 id="normas"> Normas </h2>
+	<h4> As normas técnicas garantem uniformidade e padronização internacional. Elas definem como o desenho deve ser apresentado, quais símbolos utilizar e como indicar dimensões. </h4>
+	<h4> No Brasil, a regulamentação é feita pela Associação Brasileira de Normas Técnicas (ABNT), que estabelece padrões para: </h4>
+	<ul>
+		<li> Formatos de folha (A0, A1, A2, A3, A4) </li>
+		<li> Margens e carimbo </li>
+		<li> Escalas normalizadas </li>
+		<li> Cotagem </li>
+		<li> Tipos e espessuras de linha </li>
+		<li> Representação de cortes e seções </li>
+	</ul>
+	<h4> Internacionalmente, a International Organization for Standardization (ISO) harmoniza esses critérios. </h4>
+	<h4> O uso das normas permite que um projeto desenvolvido em um país seja compreendido e executado em outro sem necessidade de adaptação conceitual. A padronização elimina interpretações subjetivas e garante interoperabilidade técnica. </h4>
+
+	<h2 id="matinstru"> Materiais e Instrumentos </h2>
+	<h3> Desenho Manual </h3>
+	<h4> Tradicionalmente, o desenho técnico era executado com: </h4>
+	<ul>
+		<li> Prancheta: superfície rígida para apoiar o papel. </li>
+		<li> Régua T: para traçar linhas paralelas e perpendiculares. </li>
+		<li> Esquadros: para desenhar ângulos precisos (30°, 45°, 60°). </li>
+		<li> Compasso: para arcos e círculos. </li>
+		<li> Escalímetro </li>
+		<li> Lápis técnicos (HB, 2H, etc.) </li>
+	</ul>
+	<h4> Cada instrumento possui função específica. O compasso, por exemplo, é utilizado para traçar circunferências e arcos com precisão geométrica. O escalímetro permite conversão direta de escalas sem necessidade de cálculo manual constante. </h4>
+	<h3> Desenho Digital </h3>
+	<h4> Com a digitalização, surgiram softwares CAD como o AutoCAD e sistemas paramétricos como o Fusion 360. </h4>
+	<h4> Esses sistemas substituem instrumentos físicos por comandos computacionais, mas mantêm os mesmos princípios geométricos. A diferença está na automação, precisão matemática e possibilidade de simulação integrada. </h4>
+
+	<h2 id="perspectivas"> Perspectivas </h2>
+	<h4> A perspectiva permite visualizar o objeto em três dimensões, oferecendo compreensão espacial. </h4>
+	<h4> Os principais tipos são:</h4>
+	<ul>
+		<li> Perspectiva Isométrica: todas as dimensões são representadas em escala uniforme. </li>
+		<li> Perspectiva Cavaleira: uma das dimensões é representada em escala reduzida. </li>
+		<li> Perspectiva Cônica: utiliza ponto(s) de fuga, aproximando-se da visão humana, é mais comum em arquitetura e representação artística. </li>
+	</ul>
+	<h4> Enquanto as projeções ortogonais são técnicas e precisas para fabricação, as perspectivas auxiliam na visualização e compreensão espacial do projeto. </h4>
+
+	<h2 id="cotagens"> Cotagens </h2>
+	<h4> A cotagem é o processo de indicar as dimensões de um objeto no desenho técnico. Ela deve ser clara, precisa e seguir normas específicas para evitar ambiguidades. </h4>
+	<h4> Os princípios fundamentais da cotagem incluem: </h4>
+	<ul>
+		<li> Legibilidade: as cotas devem ser facilmente legíveis, sem sobreposição. </li>
+		<li> Completude: todas as dimensões necessárias para fabricação devem estar indicadas. </li>
+		<li> Consistência: seguir um padrão de cotagem para todo o desenho. </li>
+		<li> Evitar redundância: não repetir dimensões que podem ser inferidas. </li>
+	</ul>
+	<h4> Uma cotagem mal executada pode gerar erros produtivos significativos. Por isso, as normas definem tamanho de setas, posicionamento e legibilidade. </h4>
+
+	<h2 id="linha"> Tipos de Linha </h2>
+	<h4> Os tipos de linha são fundamentais para transmitir informações específicas no desenho técnico. Cada tipo de linha tem um significado distinto, permitindo que o leitor compreenda a natureza do elemento representado. </h4>
+	<h4> Os principais tipos de linha incluem: </h4>
+	<ul>
+		<li> Linha Contínua Grossa: utilizada para contornos visíveis. </li>
+		<li> Linha Contínua Fina: usada para cotas, hachuras e detalhes. </li>
+		<li> Linha Tracejada: representa arestas ocultas. </li>
+		<li> Linha de Centro: indica eixos de simetria ou centros de círculos. </li>
+		<li> Linha de Corte: utilizada para indicar planos de corte em seções. </li>
+	</ul>
+	<h4> A variação de espessura e padrão garante hierarquia visual e interpretação correta. O uso incorreto pode comprometer a leitura do desenho. </h4>
+
+	<h1 id="exercicios"> Exercícios </h1>
+
+	<h2 id="historica"> História do Desenho Técnico (Teórico) </h2>
+	<div class="quiz">
+ 	 <p><strong>A principal diferença entre a Era do Desenho Técnico Manual (século XIX–XX) e a Era Digital (CAD) está:</strong></p>
+
+	  <input type="radio" name="q1" value="a" id="q1a">
+	  <label for="q1a">A) Na substituição do papel pelo plástico técnico.</label><br>
+
+	  <input type="radio" name="q1" value="b" id="q1b">
+	  <label for="q1b">B) Na eliminação completa das normas técnicas.</label><br>
+
+	  <input type="radio" name="q1" value="c" id="q1c">
+	  <label for="q1c">C) Na introdução da modelagem paramétrica e automação das alterações dimensionais.</label><br>
+
+	  <input type="radio" name="q1" value="d" id="q1d">
+	  <label for="q1d">D) No abandono da geometria descritiva.</label><br>
+
+	  <input type="radio" name="q1" value="e" id="q1e">
+	  <label for="q1e">E) No fim das projeções ortogonais.</label>
+
+	  <div class="feedback correta">
+	    ✔ Resposta correta!
+	  </div>
+
+	  <div class="feedback errada a">✖ Incorreta.</div>
+	  <div class="feedback errada b">✖ Incorreta.</div>
+	  <div class="feedback errada d">✖ Incorreta.</div>
+	  <div class="feedback errada e">✖ Incorreta.</div>
+	</div>
+
+	<h2 id="tecnica"> Conteúdo Prático </h2>
+	<div class="quiz">
+ 	 <p><strong> No sistema de 1º diedro, adotado no Brasil conforme normas da Associação Brasileira de Normas Técnicas, a vista superior é posicionada: </strong></p>
+
+	  <input type="radio" name="q2" value="a" id="q2a">
+	  <label for="q2a">A) Acima da vista frontal.</label><br>
+
+	  <input type="radio" name="q2" value="b" id="q2b">
+	  <label for="q2b">B) À direita da vista lateral direita.</label><br>
+
+	  <input type="radio" name="q2" value="c" id="q2c">
+	  <label for="q2c">C) Abaixo da vista frontal.</label><br>
+
+	  <input type="radio" name="q2" value="d" id="q2d">
+	  <label for="q2d">D) Sobreposta à vista frontal.</label><br>
+
+	  <input type="radio" name="q2" value="e" id="q2e">
+	  <label for="q2e">E) À esquerda da vista frontal.</label>
+
+	  <div class="feedback correta">
+	    ✔ Resposta correta!
+	  </div>
+
+	  <div class="feedback errada a">✖ Incorreta.</div>
+	  <div class="feedback errada b">✖ Incorreta.</div>
+	  <div class="feedback errada d">✖ Incorreta.</div>
+	  <div class="feedback errada e">✖ Incorreta.</div>
+	</div>
+
+	<div class="quiz">
+ 	 <p><strong> Em desenho técnico normatizado, a linha utilizada para representar arestas não visíveis deve ser: </strong></p>
+
+	  <input type="radio" name="q3" value="a" id="q3a">
+	  <label for="q3a">A) Linha contínua larga</label><br>
+
+	  <input type="radio" name="q3" value="b" id="q3b">
+	  <label for="q3b">B) Linha contínua fina</label><br>
+
+	  <input type="radio" name="q3" value="c" id="q3c">
+	  <label for="q3c">C) Linha tracejada fina</label><br>
+
+	  <input type="radio" name="q3" value="d" id="q3d">
+	  <label for="q3d">D) Linha traço-ponto larga</label><br>
+
+	  <input type="radio" name="q3" value="e" id="q3e">
+	  <label for="q3e">E) Linha traço-ponto fina</label>
+
+	  <div class="feedback correta">
+	    ✔ Resposta correta!
+	  </div>
+
+	  <div class="feedback errada a">✖ Incorreta.</div>
+	  <div class="feedback errada b">✖ Incorreta.</div>
+	  <div class="feedback errada d">✖ Incorreta.</div>
+	  <div class="feedback errada e">✖ Incorreta.</div>
+	</div>
+
+
+	</div>
+</body>
+</html>
