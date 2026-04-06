@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 int main(){
-	int i = 0, temp = 0, tam = 5, *vect, **vectA, **vectB;
+	int i = 0, temp = 0, tam = 5, *vect, *vectA, *vectB;
 	
 	vect = malloc(tam * sizeof(int));
 	vectA = vect;
@@ -22,7 +22,7 @@ int main(){
 				} else{
 					printf("Nao ha espaco suficiente para realocacao!!!");
 					free(vect);
-					return 0;
+					break;
 				}
 				
 			}
@@ -51,14 +51,12 @@ int main(){
 	
 	printf("\n------------+++----------\n\n");
 	
-	if(vectA = vectB){
+	if(vectA == vectB){
 		printf("Memoria nao mudou de endereco!\n");
 	} else{
 		printf("Memoria mudou de endereco!\n");
 	}
 	
-	free(vectA);
-	free(vectB);
 	free(vect);
 	return 0;
 }
