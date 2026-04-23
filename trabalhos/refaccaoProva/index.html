@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copa do Mundo 2026 - Grupos</title>
+    <style>
+        /* ===== QUESTÃO 02 - CSS ===== */
+        :root {
+            --bg-color: #f0f4f8;
+            --header-bg: #1a2a4a;
+            --accent: #f5a623;
+            --card-bg: #ffffff;
+            --card-border: #dde3ed;
+            --text-primary: #1a2a4a;
+            --text-secondary: #555;
+            --group-a: #e8f5e9;
+            --group-b: #e3f2fd;
+            --group-c: #fff8e1;
+            --badge-color: #1a2a4a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Cabeçalho centralizado */
+        header {
+            background-color: var(--header-bg);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            border-bottom: 5px solid var(--accent);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            letter-spacing: 2px;
+            color: var(--accent);
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        /* Container principal */
+        main {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 25px;
+        }
+
+        /* Cartões de grupos - destaque da página */
+        .grupo-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 25px 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .grupo-card:nth-child(1) { border-top: 5px solid #4caf50; }
+        .grupo-card:nth-child(2) { border-top: 5px solid #2196f3; }
+        .grupo-card:nth-child(3) { border-top: 5px solid #ff9800; }
+
+        .grupo-card h2 {
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .grupo-card h3 {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        /* Lista de seleções */
+        ul.selecoes {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        ul.selecoes li {
+            background-color: var(--bg-color);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        /* Botão Próximo */
+        .btn-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        button#btnProximo {
+            background-color: var(--header-bg);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button#btnProximo:hover {
+            background-color: var(--accent);
+            color: var(--header-bg);
+        }
+
+        /* Details - Saiba Mais */
+        details {
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: 1px solid var(--card-border);
+        }
+
+        details summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--text-secondary);
+            list-style: none;
+        }
+
+        details summary::before {
+            content: "ℹ️ ";
+        }
+
+        details p {
+            margin-top: 8px;
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- QUESTÃO 01 - Estrutura HTML -->
+    <header>
+        <h1>⚽ Copa do Mundo 2026</h1>
+        <p>Grupos e Seleções</p>
+    </header>
+
+    <main id="conteudo-principal">
+
+        <!-- ITEM 1 - Grupo A -->
+        <div id="grupo-a" class="grupo-card">
+            <h2>🅰️ Grupo A</h2>
+            <h3>Seleções</h3>
+            <ul class="selecoes">
+                <li>México</li>
+                <li>África do Sul</li>
+                <li>Coreia do Sul</li>
+                <li>República Tcheca</li>
+            </ul>
+            <details>
+                <summary>Saiba Mais</summary>
+                <p>O jogo de abertura será México x África do Sul. Confrontos entre Coreia do Sul e seleções europeias já ocorreram em várias Copas, com histórico equilibrado.</p>
+            </details>
+        </div>
+
+        <!-- ITEM 2 - Grupo B -->
+        <div id="grupo-b" class="grupo-card">
+            <h2>🅱️ Grupo B</h2>
+            <h3>Seleções</h3>
+            <ul class="selecoes">
+                <li>Canadá</li>
+                <li>Suíça</li>
+                <li>Catar</li>
+                <li>Vaga Europeia (Bósnia)</li>
+            </ul>
+            <details>
+                <summary>Saiba Mais</summary>
+                <p>O Canadá joga em casa, fator importante de desempenho. Catar e Suíça já se enfrentaram recentemente em amistosos internacionais.</p>
+            </details>
+        </div>
+
+        <!-- ITEM 3 - Grupo C -->
+        <div id="grupo-c" class="grupo-card">
+            <h2>🅲 Grupo C</h2>
+            <h3>Seleções</h3>
+            <ul class="selecoes">
+                <li>Brasil</li>
+                <li>Marrocos</li>
+                <li>Haiti</li>
+                <li>Escócia</li>
+            </ul>
+            <details>
+                <summary>Saiba Mais</summary>
+                <p>Brasil, Marrocos e Escócia já dividiram grupo em 1998. Brasil nunca perdeu para a Escócia em Copas.</p>
+            </details>
+        </div>
+
+        <!-- QUESTÃO 03 - Botão Próximo -->
+        <div class="btn-container">
+            <button id="btnProximo" onclick="proximo()">Próximo ➡️</button>
+        </div>
+
+    </main>
+
+    <footer>© 2026 - Copa do Mundo FIFA</footer>
+
+    <!-- QUESTÃO 03 - JavaScript -->
+    <script>
+        // Grupos D, E, F para o botão "Próximo"
+        const gruposProximos = [
+            {
+                id: "grupo-d",
+                emoji: "🅳",
+                nome: "Grupo D",
+                selecoes: ["Estados Unidos", "Paraguai", "Austrália", "Turquia"],
+                fatos: "Os EUA jogam em casa, vantagem histórica em Copas. Austrália enfrenta frequentemente seleções sul-americanas em torneios."
+            },
+            {
+                id: "grupo-e",
+                emoji: "🅴",
+                nome: "Grupo E",
+                selecoes: ["Alemanha", "Equador", "Costa do Marfim", "Curaçao"],
+                fatos: "Alemanha costuma dominar fases de grupos. Equador e Costa do Marfim têm estilos físicos semelhantes."
+            },
+            {
+                id: "grupo-f",
+                emoji: "🅵",
+                nome: "Grupo F",
+                selecoes: ["Holanda", "Japão", "Tunísia", "Suécia"],
+                fatos: "Brasil, Marrocos e Escócia já dividiram grupo em 1998. Brasil nunca perdeu para a Escócia em Copas."
+            }
+        ];
+
+        let mostrandoProximos = false;
+
+        // Grupos A, B, C originais
+        const gruposOriginais = [
+            {
+                emoji: "🅰️", nome: "Grupo A",
+                selecoes: ["México", "África do Sul", "Coreia do Sul", "República Tcheca"],
+                fatos: "O jogo de abertura será México x África do Sul. Confrontos entre Coreia do Sul e seleções europeias já ocorreram em várias Copas."
+            },
+            {
+                emoji: "🅱️", nome: "Grupo B",
+                selecoes: ["Canadá", "Suíça", "Catar", "Vaga Europeia (Bósnia)"],
+                fatos: "O Canadá joga em casa, fator importante de desempenho. Catar e Suíça já se enfrentaram recentemente em amistosos internacionais."
+            },
+            {
+                emoji: "🅲", nome: "Grupo C",
+                selecoes: ["Brasil", "Marrocos", "Haiti", "Escócia"],
+                fatos: "Brasil, Marrocos e Escócia já dividiram grupo em 1998. Brasil nunca perdeu para a Escócia em Copas."
+            }
+        ];
+
+        function renderGrupos(grupos) {
+            const main = document.getElementById('conteudo-principal');
+            const btn = document.getElementById('btnProximo');
+
+            // Remove cards existentes
+            const cards = main.querySelectorAll('.grupo-card');
+            cards.forEach(c => c.remove());
+
+            // Cria novos cards
+            const borders = ['#4caf50', '#2196f3', '#ff9800'];
+            grupos.forEach((g, i) => {
+                const div = document.createElement('div');
+                div.className = 'grupo-card';
+                div.id = g.id || `grupo-${i}`;
+                div.style.borderTop = `5px solid ${borders[i]}`;
+
+                const lis = g.selecoes.map(s => `<li>${s}</li>`).join('');
+
+                div.innerHTML = `
+                    <h2>${g.emoji} ${g.nome}</h2>
+                    <h3>Seleções</h3>
+                    <ul class="selecoes">${lis}</ul>
+                    <details>
+                        <summary>Saiba Mais</summary>
+                        <p>${g.fatos}</p>
+                    </details>
+                `;
+
+                main.insertBefore(div, btn.parentElement);
+            });
+        }
+
+        function proximo() {
+            if (!mostrandoProximos) {
+                renderGrupos(gruposProximos);
+                document.getElementById('btnProximo').textContent = '⬅️ Anterior';
+                mostrandoProximos = true;
+            } else {
+                renderGrupos(gruposOriginais);
+                document.getElementById('btnProximo').textContent = 'Próximo ➡️';
+                mostrandoProximos = false;
+            }
+        }
+    </script>
+
+</body>
+</html>
