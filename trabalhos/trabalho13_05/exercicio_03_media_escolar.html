@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Média Escolar | Exercício 03</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #ededea;
+            --paper: #fdfcf9;
+            --ink: #1c1c1a;
+            --ink-soft: #5a5a55;
+            --rule: #d4d2cb;
+            --rule-strong: #8a877e;
+            --aprovado: #1d4ed8;
+            --aprovado-bg: #dbeafe;
+            --exame: #15803d;
+            --exame-bg: #dcfce7;
+            --reprovado: #b91c1c;
+            --reprovado-bg: #fee2e2;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .boletim {
+            width: 100%;
+            max-width: 620px;
+            background: var(--paper);
+            border: 1px solid var(--rule);
+            position: relative;
+            box-shadow:
+                0 1px 0 var(--rule),
+                0 24px 60px -20px rgba(0, 0, 0, 0.18);
+        }
+
+        /* Detalhe de perfuração no topo (estilo papel de boletim) */
+        .boletim::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background-image:
+                repeating-linear-gradient(
+                    90deg,
+                    var(--ink) 0 10px,
+                    transparent 10px 22px
+                );
+            opacity: 0.85;
+        }
+
+        .topo {
+            padding: 40px 44px 28px;
+            border-bottom: 1px solid var(--rule);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            align-items: flex-end;
+        }
+
+        .selo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--ink-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            font-family: 'Newsreader', serif;
+            font-weight: 600;
+            font-size: 2.6rem;
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+
+        h1 em {
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .numero-doc {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--ink-soft);
+            text-align: right;
+            line-height: 1.4;
+        }
+
+        .numero-doc strong {
+            display: block;
+            color: var(--ink);
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+
+        .formulario {
+            padding: 36px 44px;
+        }
+
+        .campo {
+            margin-bottom: 22px;
+        }
+
+        .campo label {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--ink-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 8px;
+        }
+
+        .campo input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1.5px solid var(--rule-strong);
+            padding: 8px 0 10px;
+            font-family: 'Newsreader', serif;
+            font-size: 1.4rem;
+            color: var(--ink);
+            outline: none;
+            transition: border-color 0.2s ease;
+            -moz-appearance: textfield;
+        }
+
+        .campo input::-webkit-outer-spin-button,
+        .campo input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .campo input:focus {
+            border-bottom-color: var(--ink);
+        }
+
+        .campo input::placeholder {
+            color: var(--rule-strong);
+            opacity: 0.6;
+            font-style: italic;
+        }
+
+        .notas-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .botao-area {
+            margin-top: 12px;
+        }
+
+        button {
+            width: 100%;
+            background: var(--ink);
+            color: var(--paper);
+            border: none;
+            padding: 18px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: #000;
+            letter-spacing: 0.18em;
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        /* ---- Área de resultado ---- */
+        .resultado {
+            margin-top: 28px;
+            border: 1.5px solid var(--rule);
+            padding: 28px 32px;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.4s ease, max-height 0.4s ease, padding 0.4s ease, margin-top 0.4s ease;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-top: 0;
+            border-width: 0;
+        }
+
+        .resultado.show {
+            opacity: 1;
+            max-height: 400px;
+            padding: 28px 32px;
+            margin-top: 28px;
+            border-width: 1.5px;
+        }
+
+        .resultado-cabecalho {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+            border-bottom: 1px dashed var(--rule);
+        }
+
+        .resultado-aluno {
+            font-family: 'Newsreader', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .resultado-media-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--ink-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            display: block;
+            text-align: right;
+        }
+
+        .resultado-media-valor {
+            font-family: 'Newsreader', serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-top: 4px;
+            display: block;
+            text-align: right;
+        }
+
+        .resultado-status {
+            padding: 16px 20px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .status-titulo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .status-titulo::before {
+            content: '';
+            display: block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .status-detalhe {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin-left: 22px;
+        }
+
+        /* Estados de cor (3 mensagens distintas como pede o enunciado) */
+        .resultado.aprovado .resultado-status {
+            background: var(--aprovado-bg);
+            color: var(--aprovado);
+        }
+        .resultado.aprovado .status-titulo::before {
+            background: var(--aprovado);
+        }
+
+        .resultado.exame .resultado-status {
+            background: var(--exame-bg);
+            color: var(--exame);
+        }
+        .resultado.exame .status-titulo::before {
+            background: var(--exame);
+        }
+
+        .resultado.reprovado .resultado-status {
+            background: var(--reprovado-bg);
+            color: var(--reprovado);
+        }
+        .resultado.reprovado .status-titulo::before {
+            background: var(--reprovado);
+        }
+
+        .erro-msg {
+            background: var(--reprovado-bg);
+            color: var(--reprovado);
+            padding: 14px 18px;
+            margin-top: 16px;
+            font-size: 0.88rem;
+            display: none;
+            font-weight: 500;
+        }
+
+        .erro-msg.show {
+            display: block;
+        }
+
+        @media (max-width: 560px) {
+            .topo {
+                padding: 32px 28px 24px;
+                grid-template-columns: 1fr;
+            }
+            h1 { font-size: 2rem; }
+            .numero-doc { text-align: left; }
+            .formulario { padding: 28px; }
+            .notas-grid { grid-template-columns: 1fr; gap: 12px; }
+            .resultado-cabecalho {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+            .resultado-media-label, .resultado-media-valor { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="boletim">
+        <header class="topo">
+            <div>
+                <div class="selo">Exercício 03 · Boletim</div>
+                <h1>Média <em>escolar</em></h1>
+            </div>
+            <div class="numero-doc">
+                Documento
+                <strong>Nº 03 / 2026</strong>
+            </div>
+        </header>
+
+        <section class="formulario">
+
+            <div class="campo">
+                <label for="nome">Nome do aluno</label>
+                <input type="text" id="nome" placeholder="Ex: João da Silva" autocomplete="off">
+            </div>
+
+            <div class="notas-grid">
+                <div class="campo">
+                    <label for="nota1">Nota 1</label>
+                    <input type="number" id="nota1" min="0" max="10" step="0.1" placeholder="0.0">
+                </div>
+                <div class="campo">
+                    <label for="nota2">Nota 2</label>
+                    <input type="number" id="nota2" min="0" max="10" step="0.1" placeholder="0.0">
+                </div>
+                <div class="campo">
+                    <label for="nota3">Nota 3</label>
+                    <input type="number" id="nota3" min="0" max="10" step="0.1" placeholder="0.0">
+                </div>
+            </div>
+
+            <div class="botao-area">
+                <button id="btnCalcular">Calcular média</button>
+            </div>
+
+            <div class="erro-msg" id="erroMsg"></div>
+
+            <div class="resultado" id="resultado">
+                <div class="resultado-cabecalho">
+                    <div class="resultado-aluno" id="resAluno">—</div>
+                    <div>
+                        <span class="resultado-media-label">Média final</span>
+                        <span class="resultado-media-valor" id="resMedia">0.00</span>
+                    </div>
+                </div>
+                <div class="resultado-status">
+                    <div class="status-titulo" id="resStatus">—</div>
+                    <div class="status-detalhe" id="resDetalhe"></div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        const inputNome  = document.getElementById('nome');
+        const inputN1    = document.getElementById('nota1');
+        const inputN2    = document.getElementById('nota2');
+        const inputN3    = document.getElementById('nota3');
+        const btn        = document.getElementById('btnCalcular');
+        const erroMsg    = document.getElementById('erroMsg');
+        const divRes     = document.getElementById('resultado');
+        const resAluno   = document.getElementById('resAluno');
+        const resMedia   = document.getElementById('resMedia');
+        const resStatus  = document.getElementById('resStatus');
+        const resDetalhe = document.getElementById('resDetalhe');
+
+        // ---- Mostra mensagem de erro ----
+        function mostrarErro(texto) {
+            erroMsg.textContent = texto;
+            erroMsg.classList.add('show');
+            divRes.classList.remove('show', 'aprovado', 'exame', 'reprovado');
+        }
+
+        function limparErro() {
+            erroMsg.classList.remove('show');
+            erroMsg.textContent = '';
+        }
+
+        // ---- Cálculo principal ----
+        function calcularMedia() {
+            limparErro();
+
+            const nome = inputNome.value.trim();
+            // Converte os inputs para Number, como pede o descritivo
+            const n1 = Number(inputN1.value);
+            const n2 = Number(inputN2.value);
+            const n3 = Number(inputN3.value);
+
+            // Validações
+            if (nome === '') {
+                mostrarErro('Informe o nome do aluno antes de calcular.');
+                return;
+            }
+
+            if (inputN1.value === '' || inputN2.value === '' || inputN3.value === '') {
+                mostrarErro('Preencha as três notas para calcular a média.');
+                return;
+            }
+
+            if (isNaN(n1) || isNaN(n2) || isNaN(n3)) {
+                mostrarErro('As notas devem ser valores numéricos válidos.');
+                return;
+            }
+
+            if (n1 < 0 || n1 > 10 || n2 < 0 || n2 > 10 || n3 < 0 || n3 > 10) {
+                mostrarErro('Cada nota deve estar entre 0 e 10.');
+                return;
+            }
+
+            // Cálculo da média
+            const media = (n1 + n2 + n3) / 3;
+            const mediaFormatada = media.toFixed(2);
+
+            // Preenche cabeçalho do resultado
+            resAluno.textContent = nome;
+            resMedia.textContent = mediaFormatada;
+
+            // Limpa estado anterior
+            divRes.classList.remove('aprovado', 'exame', 'reprovado');
+
+            // ---- Decisão da situação ----
+            if (media >= 7.0) {
+                // APROVADO — mensagem azul (conforme enunciado)
+                divRes.classList.add('aprovado');
+                resStatus.textContent = 'Aprovado';
+                resDetalhe.textContent =
+                    `Parabéns! ${nome.split(' ')[0]} atingiu média ${mediaFormatada}, acima do mínimo (7.0) para aprovação direta.`;
+            } else if (media >= 4.0) {
+                // EXAME — mensagem verde + quanto falta para 10
+                divRes.classList.add('exame');
+                const faltaPara10 = (10 - media).toFixed(2);
+                resStatus.textContent = 'Em exame';
+                resDetalhe.textContent =
+                    `Média ${mediaFormatada}. Faltam ${faltaPara10} pontos para chegar à nota 10.`;
+            } else {
+                // REPROVADO — mensagem vermelha
+                divRes.classList.add('reprovado');
+                resStatus.textContent = 'Reprovado';
+                resDetalhe.textContent =
+                    `Média ${mediaFormatada} é inferior a 4.0. O aluno não atingiu o mínimo para realizar exame.`;
+            }
+
+            divRes.classList.add('show');
+        }
+
+        // Botão com escutador de evento (conforme descritivo)
+        btn.addEventListener('click', calcularMedia);
+
+        // Bônus de UX: Enter em qualquer input dispara o cálculo
+        [inputNome, inputN1, inputN2, inputN3].forEach(el => {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') calcularMedia();
+            });
+        });
+    </script>
+
+</body>
+</html>

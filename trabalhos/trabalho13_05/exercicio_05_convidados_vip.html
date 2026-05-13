@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Convidados VIP | Infinity Bank · Exercício 05</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #f7f5f0;
+            --paper: #ffffff;
+            --ink: #1a1a1a;
+            --ink-soft: #6b6b6b;
+            --ink-faint: #a8a8a8;
+            --rule: #e8e3d8;
+            --rule-strong: #c9c2b3;
+            --gold: #b8924d;
+            --gold-soft: #f4eddd;
+            --done: #9ca3af;
+            --danger: #b91c1c;
+            --danger-bg: #fef2f2;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 20px;
+            background-image:
+                radial-gradient(ellipse at top, rgba(184, 146, 77, 0.06) 0%, transparent 60%);
+        }
+
+        .card {
+            width: 100%;
+            max-width: 620px;
+            background: var(--paper);
+            border-radius: 4px;
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.04),
+                0 4px 12px rgba(0, 0, 0, 0.04),
+                0 20px 60px -10px rgba(0, 0, 0, 0.12);
+            border: 1px solid var(--rule);
+            overflow: hidden;
+        }
+
+        /* ===== Cabeçalho elegante ===== */
+        .card-header {
+            padding: 44px 48px 36px;
+            text-align: center;
+            background:
+                linear-gradient(180deg, var(--gold-soft) 0%, transparent 100%);
+            border-bottom: 1px solid var(--rule);
+            position: relative;
+        }
+
+        /* Linhas decorativas dos cantos */
+        .card-header::before,
+        .card-header::after {
+            content: '';
+            position: absolute;
+            top: 16px;
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+        }
+        .card-header::before { left: 16px; }
+        .card-header::after  { right: 16px; }
+
+        .selo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            margin-bottom: 16px;
+        }
+
+        .selo::before, .selo::after {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--gold);
+            opacity: 0.6;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            font-size: 2.6rem;
+            line-height: 1.05;
+            letter-spacing: -0.01em;
+            margin-bottom: 8px;
+        }
+
+        h1 em {
+            font-style: italic;
+            font-weight: 400;
+            color: var(--gold);
+        }
+
+        .subtitle {
+            color: var(--ink-soft);
+            font-size: 0.92rem;
+            font-style: italic;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+        }
+
+        /* ===== Formulário de adicionar ===== */
+        .form-add {
+            padding: 28px 48px 20px;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-row input {
+            flex: 1;
+            background: transparent;
+            border: 1px solid var(--rule-strong);
+            border-radius: 4px;
+            padding: 14px 16px;
+            color: var(--ink);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-row input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(184, 146, 77, 0.12);
+        }
+
+        .form-row input::placeholder {
+            color: var(--ink-faint);
+            font-style: italic;
+        }
+
+        .btn-add {
+            background: var(--ink);
+            color: var(--paper);
+            border: none;
+            border-radius: 4px;
+            padding: 14px 22px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-add:hover {
+            background: #000;
+            transform: translateY(-1px);
+        }
+
+        .btn-add:active {
+            transform: translateY(0);
+        }
+
+        .form-aviso {
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: var(--danger-bg);
+            color: var(--danger);
+            border-radius: 4px;
+            font-size: 0.82rem;
+            display: none;
+        }
+
+        .form-aviso.show {
+            display: block;
+        }
+
+        /* ===== Stats bar ===== */
+        .stats-bar {
+            padding: 14px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fafaf7;
+            border-bottom: 1px solid var(--rule);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--ink-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .stats-bar .total {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .stats-bar .presentes {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* ===== Lista de convidados ===== */
+        .lista-wrapper {
+            padding: 0;
+            max-height: 480px;
+            overflow-y: auto;
+        }
+
+        /* Scrollbar elegante */
+        .lista-wrapper::-webkit-scrollbar {
+            width: 8px;
+        }
+        .lista-wrapper::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .lista-wrapper::-webkit-scrollbar-thumb {
+            background: var(--rule-strong);
+            border-radius: 4px;
+        }
+
+        ol.lista {
+            list-style: none;
+            counter-reset: convidado;
+        }
+
+        .empty-state {
+            padding: 60px 32px;
+            text-align: center;
+            color: var(--ink-faint);
+        }
+
+        .empty-state-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 18px;
+            border: 1.5px dashed var(--rule-strong);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-style: italic;
+            color: var(--ink-faint);
+        }
+
+        .empty-state p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+
+        .convidado-item {
+            counter-increment: convidado;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 48px;
+            border-bottom: 1px solid var(--rule);
+            transition: background 0.2s ease;
+            gap: 16px;
+        }
+
+        .convidado-item:last-child {
+            border-bottom: none;
+        }
+
+        .convidado-item:hover {
+            background: #fafaf7;
+        }
+
+        .convidado-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .convidado-numero {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--ink-faint);
+            font-weight: 500;
+            min-width: 24px;
+        }
+
+        .convidado-numero::before {
+            content: counter(convidado, decimal-leading-zero);
+        }
+
+        .convidado-nome {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--ink);
+            transition: all 0.3s ease;
+            word-break: break-word;
+        }
+
+        /* Estado "presente" - nome riscado */
+        .convidado-item.classe-riscado .convidado-nome {
+            text-decoration: line-through;
+            color: var(--done);
+            font-style: italic;
+        }
+
+        .convidado-item.classe-riscado .convidado-numero {
+            opacity: 0.4;
+        }
+
+        .convidado-item.classe-riscado::before {
+            content: '✓';
+            position: absolute;
+            color: var(--gold);
+        }
+
+        /* Botões de ação */
+        .convidado-acoes {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .btn-acao {
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--ink-soft);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .btn-acao:hover {
+            border-color: var(--rule-strong);
+            background: var(--paper);
+        }
+
+        .btn-acao.concluir:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: var(--gold-soft);
+        }
+
+        .btn-acao.editar:hover {
+            border-color: var(--ink);
+            color: var(--ink);
+        }
+
+        .btn-acao.excluir:hover {
+            border-color: var(--danger);
+            color: var(--danger);
+            background: var(--danger-bg);
+        }
+
+        /* Quando concluído, o botão "Concluir" fica destacado */
+        .convidado-item.classe-riscado .btn-acao.concluir {
+            color: var(--gold);
+            border-color: var(--gold);
+            background: var(--gold-soft);
+        }
+
+        /* Animação de entrada */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .convidado-item.entrando {
+            animation: slideIn 0.3s ease forwards;
+        }
+
+        /* Animação de saída */
+        @keyframes slideOut {
+            to {
+                opacity: 0;
+                transform: translateX(20px);
+                max-height: 0;
+                padding-top: 0;
+                padding-bottom: 0;
+                border-width: 0;
+            }
+        }
+
+        .convidado-item.saindo {
+            animation: slideOut 0.25s ease forwards;
+            overflow: hidden;
+        }
+
+        /* Rodapé */
+        .card-footer {
+            padding: 16px 48px;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--ink-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            background: #fafaf7;
+        }
+
+        /* Responsivo */
+        @media (max-width: 560px) {
+            .card-header { padding: 36px 24px 28px; }
+            .card-header::before, .card-header::after { width: 24px; }
+            h1 { font-size: 2rem; }
+            .form-add { padding: 24px; }
+            .form-row { flex-direction: column; }
+            .stats-bar, .card-footer { padding: 12px 24px; }
+            .convidado-item {
+                padding: 16px 24px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .convidado-acoes {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="card">
+
+        <!-- Cabeçalho -->
+        <header class="card-header">
+            <div class="selo">Infinity Bank · Exercício 05</div>
+            <h1>Lista de Convidados <em>VIP</em></h1>
+            <p class="subtitle">Inauguração · Gestão de presença</p>
+        </header>
+
+        <!-- Formulário de adicionar -->
+        <section class="form-add">
+            <div class="form-row">
+                <input
+                    type="text"
+                    id="inputNome"
+                    placeholder="Nome do convidado"
+                    autocomplete="off"
+                    maxlength="60"
+                >
+                <button class="btn-add" id="btnAdicionar">Adicionar</button>
+            </div>
+            <div class="form-aviso" id="formAviso"></div>
+        </section>
+
+        <!-- Stats -->
+        <div class="stats-bar">
+            <span>Total de convidados: <span class="total" id="statTotal">0</span></span>
+            <span>Já chegaram: <span class="presentes" id="statPresentes">0</span></span>
+        </div>
+
+        <!-- Lista -->
+        <div class="lista-wrapper">
+            <ol class="lista" id="listaConvidados">
+                <!-- Itens são inseridos via JS -->
+            </ol>
+            <div class="empty-state" id="emptyState">
+                <div class="empty-state-icon">♟</div>
+                <p>Nenhum convidado adicionado ainda.</p>
+            </div>
+        </div>
+
+        <footer class="card-footer">
+            Manipulação de DOM · JavaScript Vanilla
+        </footer>
+
+    </main>
+
+    <script>
+        // ---- Estado: array que mantém os convidados ----
+        // Cada item: { id: number, nome: string, presente: boolean }
+        let convidados = [];
+        let proximoId  = 1;
+
+        // ---- Elementos do DOM ----
+        const inputNome    = document.getElementById('inputNome');
+        const btnAdicionar = document.getElementById('btnAdicionar');
+        const lista        = document.getElementById('listaConvidados');
+        const emptyState   = document.getElementById('emptyState');
+        const formAviso    = document.getElementById('formAviso');
+        const statTotal    = document.getElementById('statTotal');
+        const statPresentes = document.getElementById('statPresentes');
+
+        // ---- Helpers ----
+        function mostrarAviso(texto) {
+            formAviso.textContent = texto;
+            formAviso.classList.add('show');
+            setTimeout(() => {
+                formAviso.classList.remove('show');
+            }, 2800);
+        }
+
+        function atualizarStats() {
+            statTotal.textContent     = convidados.length;
+            statPresentes.textContent = convidados.filter(c => c.presente).length;
+
+            // Mostra/esconde empty state
+            if (convidados.length === 0) {
+                emptyState.style.display = 'block';
+                lista.style.display = 'none';
+            } else {
+                emptyState.style.display = 'none';
+                lista.style.display = 'block';
+            }
+        }
+
+        // ---- ADICIONAR ----
+        function adicionarConvidado() {
+            // .trim() para evitar entradas vazias (dica do enunciado)
+            const nome = inputNome.value.trim();
+
+            if (nome === '') {
+                mostrarAviso('Digite um nome válido antes de adicionar.');
+                return;
+            }
+
+            if (nome.length < 2) {
+                mostrarAviso('O nome precisa ter pelo menos 2 caracteres.');
+                return;
+            }
+
+            // Verifica duplicatas (case-insensitive)
+            const jaExiste = convidados.some(
+                c => c.nome.toLowerCase() === nome.toLowerCase()
+            );
+            if (jaExiste) {
+                mostrarAviso(`"${nome}" já está na lista.`);
+                return;
+            }
+
+            const convidado = {
+                id: proximoId++,
+                nome: nome,
+                presente: false
+            };
+
+            convidados.push(convidado);
+            renderizarItem(convidado);
+            atualizarStats();
+
+            // Limpa o input e devolve o foco pra agilizar próxima adição
+            inputNome.value = '';
+            inputNome.focus();
+        }
+
+        // ---- RENDERIZAR um item (DOM) ----
+        function renderizarItem(convidado) {
+            const li = document.createElement('li');
+            li.className = 'convidado-item entrando';
+            li.dataset.id = convidado.id;
+            if (convidado.presente) li.classList.add('classe-riscado');
+
+            li.innerHTML = `
+                <div class="convidado-info">
+                    <span class="convidado-numero"></span>
+                    <span class="convidado-nome">${escaparHTML(convidado.nome)}</span>
+                </div>
+                <div class="convidado-acoes">
+                    <button class="btn-acao concluir" data-acao="concluir">Concluir</button>
+                    <button class="btn-acao editar"   data-acao="editar">Editar</button>
+                    <button class="btn-acao excluir"  data-acao="excluir">Excluir</button>
+                </div>
+            `;
+
+            lista.appendChild(li);
+
+            // Remove a classe de animação após terminar
+            setTimeout(() => li.classList.remove('entrando'), 300);
+        }
+
+        // ---- Escapa HTML pra evitar problemas com nomes que contenham < > & ----
+        function escaparHTML(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto;
+            return div.innerHTML;
+        }
+
+        // ---- CONCLUIR (riscar/desriscar) ----
+        function concluirConvidado(id, itemLi) {
+            const convidado = convidados.find(c => c.id === id);
+            if (!convidado) return;
+
+            // classList.toggle('classe-riscado') — conforme dica do enunciado
+            itemLi.classList.toggle('classe-riscado');
+            convidado.presente = itemLi.classList.contains('classe-riscado');
+
+            atualizarStats();
+        }
+
+        // ---- EDITAR (usando prompt() conforme enunciado) ----
+        function editarConvidado(id, itemLi) {
+            const convidado = convidados.find(c => c.id === id);
+            if (!convidado) return;
+
+            // prompt() é exigência explícita do enunciado
+            const novoNome = prompt('Editar nome do convidado:', convidado.nome);
+
+            // Se cancelar, prompt retorna null
+            if (novoNome === null) return;
+
+            const nomeTratado = novoNome.trim();
+
+            if (nomeTratado === '') {
+                alert('O nome não pode ficar em branco.');
+                return;
+            }
+
+            // Verifica duplicata (ignorando o próprio item)
+            const duplicata = convidados.some(
+                c => c.id !== id && c.nome.toLowerCase() === nomeTratado.toLowerCase()
+            );
+            if (duplicata) {
+                alert(`"${nomeTratado}" já está na lista.`);
+                return;
+            }
+
+            // Atualiza o array
+            convidado.nome = nomeTratado;
+
+            // Atualiza o DOM
+            const spanNome = itemLi.querySelector('.convidado-nome');
+            spanNome.textContent = nomeTratado;
+        }
+
+        // ---- EXCLUIR ----
+        function excluirConvidado(id, itemLi) {
+            const convidado = convidados.find(c => c.id === id);
+            if (!convidado) return;
+
+            const confirmar = confirm(`Remover "${convidado.nome}" da lista?`);
+            if (!confirmar) return;
+
+            // Anima saída
+            itemLi.classList.add('saindo');
+
+            setTimeout(() => {
+                // Remove do array
+                convidados = convidados.filter(c => c.id !== id);
+                // Remove do DOM
+                itemLi.remove();
+                atualizarStats();
+            }, 250);
+        }
+
+        // ---- Eventos ----
+
+        // Botão adicionar
+        btnAdicionar.addEventListener('click', adicionarConvidado);
+
+        // Enter no input adiciona
+        inputNome.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') adicionarConvidado();
+        });
+
+        // Delegação de eventos para os botões das ações
+        // (mais eficiente que adicionar listener em cada botão de cada item)
+        lista.addEventListener('click', (e) => {
+            const botao = e.target.closest('.btn-acao');
+            if (!botao) return;
+
+            const item = botao.closest('.convidado-item');
+            const id = Number(item.dataset.id);
+            const acao = botao.dataset.acao;
+
+            switch (acao) {
+                case 'concluir':
+                    concluirConvidado(id, item);
+                    break;
+                case 'editar':
+                    editarConvidado(id, item);
+                    break;
+                case 'excluir':
+                    excluirConvidado(id, item);
+                    break;
+            }
+        });
+
+        // Estado inicial
+        atualizarStats();
+    </script>
+
+</body>
+</html>

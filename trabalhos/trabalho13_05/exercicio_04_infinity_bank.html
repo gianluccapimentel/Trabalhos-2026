@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity Bank · Simulador de Vendas | Exercício 04</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0a1620;
+            --bg-elevated: #11212e;
+            --bg-input: #0d1a25;
+            --line: #1f3140;
+            --line-strong: #2f4658;
+            --text: #e9ecef;
+            --text-dim: #8ba0b3;
+            --text-faint: #56697b;
+            --gold: #d4af6e;
+            --gold-soft: rgba(212, 175, 110, 0.12);
+            --gold-glow: rgba(212, 175, 110, 0.4);
+            --success: #4ade80;
+            --error: #f87171;
+            --error-bg: rgba(248, 113, 113, 0.1);
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background-image:
+                radial-gradient(circle at 80% 0%, rgba(212, 175, 110, 0.05) 0%, transparent 45%),
+                radial-gradient(circle at 0% 100%, rgba(212, 175, 110, 0.03) 0%, transparent 50%);
+        }
+
+        .terminal {
+            width: 100%;
+            max-width: 980px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow:
+                0 30px 80px -20px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+        }
+
+        /* ---- Header com identidade do banco ---- */
+        .terminal-header {
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background:
+                linear-gradient(180deg, rgba(212, 175, 110, 0.04) 0%, transparent 100%);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-mark {
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--gold);
+            position: relative;
+        }
+
+        .brand-mark::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .brand-name {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .brand-name small {
+            display: block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-faint);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        .terminal-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-faint);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .terminal-tag::before {
+            content: '◉ ';
+            color: var(--success);
+        }
+
+        /* ---- Corpo: duas colunas ---- */
+        .terminal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 540px;
+        }
+
+        /* COLUNA ESQUERDA: formulário */
+        .formulario {
+            padding: 40px 36px;
+            border-right: 1px solid var(--line);
+        }
+
+        .section-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 32px;
+        }
+
+        .campo {
+            margin-bottom: 20px;
+        }
+
+        .campo label {
+            display: block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 8px;
+        }
+
+        .input-base,
+        .campo input,
+        .campo select {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--line-strong);
+            border-radius: 8px;
+            padding: 14px 16px;
+            color: var(--text);
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s ease;
+            -moz-appearance: textfield;
+        }
+
+        .campo input::-webkit-outer-spin-button,
+        .campo input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .campo input:focus,
+        .campo select:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 110, 0.12);
+        }
+
+        .campo input::placeholder {
+            color: var(--text-faint);
+        }
+
+        /* Select custom */
+        .campo select {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image:
+                linear-gradient(45deg, transparent 50%, var(--gold) 50%),
+                linear-gradient(135deg, var(--gold) 50%, transparent 50%);
+            background-position:
+                calc(100% - 18px) 50%,
+                calc(100% - 12px) 50%;
+            background-size: 6px 6px;
+            background-repeat: no-repeat;
+            padding-right: 36px;
+            cursor: pointer;
+        }
+
+        .campo select option {
+            background: var(--bg-input);
+        }
+
+        .valor-wrapper {
+            position: relative;
+        }
+
+        .valor-prefix {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-faint);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+            pointer-events: none;
+            font-weight: 500;
+        }
+
+        .valor-wrapper input {
+            padding-left: 42px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 500;
+        }
+
+        button {
+            width: 100%;
+            background: var(--gold);
+            color: #1a1206;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: #e0c081;
+            box-shadow: 0 0 24px var(--gold-glow);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .erro {
+            margin-top: 14px;
+            padding: 12px 16px;
+            background: var(--error-bg);
+            border: 1px solid rgba(248, 113, 113, 0.25);
+            border-radius: 8px;
+            color: var(--error);
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .erro.show {
+            display: block;
+        }
+
+        /* COLUNA DIREITA: resumo */
+        .resumo {
+            padding: 40px 36px;
+            display: flex;
+            flex-direction: column;
+            background:
+                linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.15) 100%);
+        }
+
+        .resumo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px dashed var(--line);
+        }
+
+        .resumo-titulo {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .resumo-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+        }
+
+        .empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-faint);
+        }
+
+        .empty-state-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 1.5px dashed var(--line-strong);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            color: var(--text-faint);
+        }
+
+        .empty-state p {
+            font-size: 0.9rem;
+            max-width: 240px;
+            line-height: 1.5;
+        }
+
+        /* Itens do resumo */
+        .resumo-content {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+        }
+
+        .resumo-content.show {
+            display: flex;
+        }
+
+        .linha {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--line);
+        }
+
+        .linha:last-of-type {
+            border-bottom: none;
+        }
+
+        .linha-label {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .linha-label small {
+            display: block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-faint);
+            margin-top: 2px;
+        }
+
+        .linha-valor {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .linha.total {
+            margin-top: 16px;
+            padding: 16px 0;
+            border-top: 1.5px solid var(--line-strong);
+            border-bottom: 1.5px solid var(--line-strong);
+        }
+
+        .linha.total .linha-label {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .linha.total .linha-valor {
+            font-size: 1.2rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .parcela-highlight {
+            margin-top: 24px;
+            padding: 24px;
+            background: var(--gold-soft);
+            border: 1px solid rgba(212, 175, 110, 0.25);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .parcela-highlight-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 8px;
+        }
+
+        .parcela-highlight-valor {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+
+        .parcela-highlight-detalhe {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-top: 6px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        /* Responsivo */
+        @media (max-width: 780px) {
+            .terminal-body {
+                grid-template-columns: 1fr;
+            }
+            .formulario {
+                border-right: none;
+                border-bottom: 1px solid var(--line);
+            }
+            .section-title { font-size: 1.7rem; }
+            .terminal-header {
+                padding: 20px 24px;
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+            .formulario, .resumo { padding: 32px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="terminal">
+        <header class="terminal-header">
+            <div class="brand">
+                <div class="brand-mark">∞</div>
+                <div class="brand-name">
+                    Infinity Bank
+                    <small>Simulador de Vendas</small>
+                </div>
+            </div>
+            <div class="terminal-tag">Exercício 04 · Terminal Lojista</div>
+        </header>
+
+        <div class="terminal-body">
+
+            <!-- COLUNA ESQUERDA: formulário -->
+            <section class="formulario">
+                <h1 class="section-title">Nova transação</h1>
+                <p class="section-subtitle">Calcule taxas, juros e parcelas antes de finalizar a venda.</p>
+
+                <div class="campo">
+                    <label for="bandeira">Bandeira do cartão</label>
+                    <select id="bandeira">
+                        <option value="">— Selecione —</option>
+                        <option value="visa">Visa · 2.00%</option>
+                        <option value="master">Master · 1.85%</option>
+                        <option value="elo">Elo · 3.00%</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="valor">Valor da venda</label>
+                    <div class="valor-wrapper">
+                        <span class="valor-prefix">R$</span>
+                        <input
+                            type="number"
+                            id="valor"
+                            min="0"
+                            step="0.01"
+                            placeholder="0,00"
+                            autocomplete="off"
+                        >
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label for="parcelas">Número de parcelas</label>
+                    <input
+                        type="number"
+                        id="parcelas"
+                        min="1"
+                        max="24"
+                        step="1"
+                        placeholder="Ex: 6"
+                        autocomplete="off"
+                    >
+                </div>
+
+                <button id="btnCalcular">Calcular simulação</button>
+
+                <div class="erro" id="erroMsg"></div>
+            </section>
+
+            <!-- COLUNA DIREITA: resumo -->
+            <section class="resumo">
+                <div class="resumo-header">
+                    <div class="resumo-titulo">Resumo da operação</div>
+                    <div class="resumo-tag" id="resumoTag">— · —</div>
+                </div>
+
+                <!-- Estado inicial vazio -->
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-state-icon">∑</div>
+                    <p>Preencha os dados ao lado e calcule a simulação para visualizar o resumo.</p>
+                </div>
+
+                <!-- Resultado -->
+                <div class="resumo-content" id="resumoContent">
+
+                    <div class="linha">
+                        <div class="linha-label">
+                            Valor da venda
+                            <small>Base de cálculo</small>
+                        </div>
+                        <div class="linha-valor" id="resValor">R$ 0,00</div>
+                    </div>
+
+                    <div class="linha">
+                        <div class="linha-label">
+                            Valor da Taxa
+                            <small id="resTaxaInfo">Bandeira ·</small>
+                        </div>
+                        <div class="linha-valor" id="resTaxa">R$ 0,00</div>
+                    </div>
+
+                    <div class="linha">
+                        <div class="linha-label">
+                            Taxa mensal
+                            <small id="resMensalInfo">R$ 12,50 × parcelas</small>
+                        </div>
+                        <div class="linha-valor" id="resMensal">R$ 0,00</div>
+                    </div>
+
+                    <div class="linha">
+                        <div class="linha-label">
+                            Valor dos Juros
+                            <small id="resJurosInfo">Juros simples</small>
+                        </div>
+                        <div class="linha-valor" id="resJuros">R$ 0,00</div>
+                    </div>
+
+                    <div class="linha total">
+                        <div class="linha-label">Valor total</div>
+                        <div class="linha-valor" id="resTotal">R$ 0,00</div>
+                    </div>
+
+                    <div class="parcela-highlight">
+                        <div class="parcela-highlight-label">Valor de cada parcela</div>
+                        <div class="parcela-highlight-valor" id="resParcela">R$ 0,00</div>
+                        <div class="parcela-highlight-detalhe" id="resParcelaInfo">— × R$ 0,00</div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        // ---- Elementos do DOM ----
+        const selBandeira = document.getElementById('bandeira');
+        const inpValor    = document.getElementById('valor');
+        const inpParcelas = document.getElementById('parcelas');
+        const btn         = document.getElementById('btnCalcular');
+        const erroMsg     = document.getElementById('erroMsg');
+
+        const emptyState  = document.getElementById('emptyState');
+        const content     = document.getElementById('resumoContent');
+        const resumoTag   = document.getElementById('resumoTag');
+
+        const resValor       = document.getElementById('resValor');
+        const resTaxa        = document.getElementById('resTaxa');
+        const resTaxaInfo    = document.getElementById('resTaxaInfo');
+        const resMensal      = document.getElementById('resMensal');
+        const resMensalInfo  = document.getElementById('resMensalInfo');
+        const resJuros       = document.getElementById('resJuros');
+        const resJurosInfo   = document.getElementById('resJurosInfo');
+        const resTotal       = document.getElementById('resTotal');
+        const resParcela     = document.getElementById('resParcela');
+        const resParcelaInfo = document.getElementById('resParcelaInfo');
+
+        // ---- Helpers ----
+        function formatarBRL(valor) {
+            return 'R$ ' + valor.toFixed(2).replace('.', ',');
+        }
+
+        function mostrarErro(texto) {
+            erroMsg.textContent = texto;
+            erroMsg.classList.add('show');
+        }
+
+        function limparErro() {
+            erroMsg.classList.remove('show');
+            erroMsg.textContent = '';
+        }
+
+        // ---- Lógica principal ----
+        function calcular() {
+            limparErro();
+
+            const bandeira = selBandeira.value;
+            const valor    = Number(inpValor.value);
+            const parcelas = Number(inpParcelas.value);
+
+            // Validações
+            if (!bandeira) {
+                mostrarErro('Selecione a bandeira do cartão.');
+                return;
+            }
+            if (isNaN(valor) || valor <= 0) {
+                mostrarErro('Informe um valor de venda maior que zero.');
+                return;
+            }
+            if (isNaN(parcelas) || parcelas < 1 || !Number.isInteger(parcelas)) {
+                mostrarErro('Informe um número inteiro válido de parcelas (mínimo 1).');
+                return;
+            }
+
+            // ---- Switch para taxa da bandeira (conforme dica do enunciado) ----
+            let percentualBandeira;
+            let nomeBandeira;
+            switch (bandeira) {
+                case 'visa':
+                    percentualBandeira = 0.02;   // 2%
+                    nomeBandeira = 'Visa';
+                    break;
+                case 'master':
+                    percentualBandeira = 0.0185; // 1.85%
+                    nomeBandeira = 'Master';
+                    break;
+                case 'elo':
+                    percentualBandeira = 0.03;   // 3%
+                    nomeBandeira = 'Elo';
+                    break;
+                default:
+                    percentualBandeira = 0;
+                    nomeBandeira = '—';
+            }
+
+            // ---- Cálculos ----
+            const taxaBandeira = valor * percentualBandeira;
+
+            // Juros — fórmula EXATA do Descritivo de Apoio do enunciado:
+            // Juros Totais = Valor da Venda * (0.015 * quantidade_parcelas)
+            // OBS: se o professor confirmar que é 0.35% (0.0035), basta trocar 0.015 abaixo.
+            const jurosTotais = valor * (0.015 * parcelas);
+
+            // Taxa mensal fixa: R$ 12,50 por mês (por parcela)
+            const taxaMensal = 12.50 * parcelas;
+
+            // Valor total e valor de cada parcela
+            const valorTotal   = valor + taxaBandeira + jurosTotais + taxaMensal;
+            const valorParcela = valorTotal / parcelas;
+
+            // ---- Atualiza o resumo na tela ----
+            resValor.textContent      = formatarBRL(valor);
+            resTaxa.textContent       = formatarBRL(taxaBandeira);
+            resTaxaInfo.textContent   = `${nomeBandeira} · ${(percentualBandeira * 100).toFixed(2).replace('.', ',')}%`;
+            resMensal.textContent     = formatarBRL(taxaMensal);
+            resMensalInfo.textContent = `R$ 12,50 × ${parcelas} ${parcelas === 1 ? 'mês' : 'meses'}`;
+            resJuros.textContent      = formatarBRL(jurosTotais);
+            resJurosInfo.textContent  = `1,50% × ${parcelas} ${parcelas === 1 ? 'parcela' : 'parcelas'}`;
+            resTotal.textContent      = formatarBRL(valorTotal);
+            resParcela.textContent    = formatarBRL(valorParcela);
+            resParcelaInfo.textContent = `${parcelas}× de ${formatarBRL(valorParcela)}`;
+
+            resumoTag.textContent = `${nomeBandeira} · ${parcelas}×`;
+
+            // Mostra o conteúdo do resumo, esconde o empty state
+            emptyState.style.display = 'none';
+            content.classList.add('show');
+        }
+
+        // ---- Evento do botão ----
+        btn.addEventListener('click', calcular);
+
+        // Bônus de UX: Enter dispara o cálculo
+        [inpValor, inpParcelas, selBandeira].forEach(el => {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') calcular();
+            });
+        });
+    </script>
+
+</body>
+</html>
